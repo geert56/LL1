@@ -1,0 +1,2 @@
+{*}     linesperpage    =      60; {lines per page in listing,
+                                    header lines inclusive.}

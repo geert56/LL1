@@ -1,0 +1,10 @@
+        {symbolic characters returned by the scanner routines
+         getch and peeknextch
+        }
+{*}     EOLINE          =     chr(10);
+{*}     EOFILE          =     chr( 0);
+        TAB             =     chr( 9);
+
+{ SYNONYMS: }
+        casesensitive   = false;
+        caseinsensitive = true;

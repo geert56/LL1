@@ -1,0 +1,4 @@
+{ RESERVED WORD TABLE: }
+
+        {initialised by "initkeywordtable"}
+        keywordtable    : array[1..nrreservedwords] of identstrtyp;

@@ -1,0 +1,9 @@
+{ SYNONYMS: }
+        ENDOFTEXT       = 0;
+        terminal        = false;
+        nonterm         = true;
+
+        { maximum of sum of terminal and non-terminal symbols
+          in input source: }
+{ARBITRARY}
+        maxtokens       = 1023;

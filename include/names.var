@@ -1,0 +1,36 @@
+{ SYMBOL TABLE: }
+        nametable       : array[identstridxrange] of namereclink; {init = nil}
+
+{ OTHER TABLES: }
+        { indicates whether a token is a terminal or nonterminal:}
+        tokenkind       : {packed} array[tokenidrange] of boolean;
+                          {init = undefined}
+
+        tokeninfo       : array[tokenidrange] of
+                            record
+        {all fields will be defined for terminals and non-terminals,
+         except for the lhsoccur field
+        }
+                              nametabidx : identstridxrange; {init = undefined}
+                              lastrhsoccur : nodeptr; {init = undefined}
+                              {counts rhs occurrences:}
+                              rhscount     : cardinal; {init = undefined}
+                              {pointer to rulekind node of corr. lhs:}
+                              lhsoccur     : nodeptr; {init = undefined}
+                              followset    : setref;
+                              {more info : ... }
+                            end;
+
+        { indicates the user-defined nonterminals
+          appearing on the left-hand side:}
+        lhsnonterm      : {packed} array[tokenidrange] of boolean;
+                          {init = false}
+
+{ COUNTERS: }
+        nrterminals,
+        nrnonterminals,
+        nrproductions   : cardinal; {init = 0}
+
+        { actual sum of the number of terminal and nonterminal symbols
+          (user-introduced) }
+        nrtokens        : 0 .. maxtokens; {init = 0}

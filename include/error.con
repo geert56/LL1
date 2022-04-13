@@ -1,0 +1,15 @@
+        {user definable errors numbers: 5 .. startwarnings-1}
+        {following error nr's are reserved:
+         0 : symbol skipped
+         1 : unexpected end-of-file
+         2 : illegal character
+         3 : illegal symbol
+         4 : too many errors in this line
+        }
+
+{*}     maxerrnr        =     255;
+        {user definable warning numbers: startwarnings .. maxerrnr-1}
+{*}     startwarnings   =     200; { < maxerrnr}
+
+{*}     maxerrperline   =      10; { maximum number of errors detected
+                                     on 1 source line}

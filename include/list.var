@@ -1,0 +1,19 @@
+{ FILES: }
+{*}     listing         : text;
+
+{ FLAGS: }
+        {controls generation of a listing}
+        list            : boolean;              {init = true}
+
+{ COUNTERS: }
+        {position in source line of last read character:}
+        charcount       : cardinal;             {init = 1}
+
+        {sequence number of current line (first line = line 1):}
+        linecount       : cardinal;             {init = 0}
+
+        {number of lines on the current page}
+        pagelinecount   : cardinal;             {init = undefined}
+
+        {current page number of listing document}
+        pagecount       : cardinal;             {init = 0}

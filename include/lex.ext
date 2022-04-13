@@ -1,0 +1,9 @@
+procedure getsymbol;                                                        
+                                                                            
+procedure skipuntil(symset : setofsymbol);                                  
+                                                                            
+procedure initLex;                                                          
+                                                                            
+procedure finalLex;                                                         
+
+procedure error(errnr : cardinal);

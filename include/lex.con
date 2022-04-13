@@ -1,0 +1,56 @@
+{ SYMBOLS : }
+        firstsymbol     =       0;
+{*}     lastsymbol      =     127;
+
+        NULLsym         =       0;
+ 
+        { RESERVED WORDS (see kwsyms.con): }
+        {first reserved word always gets code 1,
+         following ones get subsequent code numbers;
+         last reserved word gets code 'nrreservedwords'
+        }
+
+        {NOT USED:}
+        {               = nrreservedwords+1;}
+        {               =     105;}
+
+        { symbol descriptors: }
+        nonterminalsym  =     106; { <blabla> }
+{*}     identifier      =     107; { count2 }
+        literal         =     108; { 'hello' 'don''t' }
+{SYNONYM:}
+        terminalsym     = literal;
+
+        epsilonsym      =     109; { <EMPTY> <> "" '' or implicit}
+
+{*}     replacesym      =     110; { ::= }
+{*}     LESSop          =     111; { < }
+{*}     GREATERop       =     112; { > }
+
+        separatesym     =     113; { \ }
+        choicesym       =     114; { | }
+{*}     PLUSsym         =     115; { + }
+{*}     TIMESsym        =     116; { * }
+        DIVIDEsym       = separatesym; { / }  { recommended instead of \ }
+        questsym        =     118; { ? }
+{*}     period          =     119; { . }
+
+        lbrace          =     120;
+        rbrace          =     121;
+{*}     lparen          =     122; { ( }
+{*}     rparen          =     123; { ) }
+{*}     lbracket        =     124; { [ }
+{*}     rbracket        =     125; { ] }
+
+        lineend         =     126; { EOLN(input) = true }
+        fileend         =     127; { EOF(input) = true }
+
+{ SYMBOL ATTRIBUTES: }
+        { number of significant chars in identifier: }
+{*}     maxidentstrlen  =      64;
+
+{ SYMBOL BUFFER: }
+        {bounds the length of variable-length tokens like identifier,
+         stringconstant and numerals.
+        }
+{*}     maxsymlength    =     133;

@@ -1,0 +1,213 @@
+
+SBNF Parser/LL(1) Verifier      version 1.0 (April 11, 2022)            page   1
+
+
+
+        1 /*****************************************************************************
+        2  Syntax of the ELLA language expressed in Super-BNF
+        3  G.L.J.M. Janssen, Jan. 1988
+        4 
+        5  Making the syntax LL(1)
+        6 
+        7  Reference: The ELLA Language Reference Manual Issue 2.0
+        8  J.D. Morison, N.E. Peeling, T.L. Thorp, E.V. Whiting
+        9  Royal Signals and Radar Establishment
+       10  (c) Crown Copyright, 1986
+       11  (c) Copyright Praxis Systems plc, 1986
+       12 *****************************************************************************/
+       13 
+       14 /* Chapter 2 */
+       15 /* <text> is the starter symbol of the language. */
+       16 <text> ::= { <declaration> }+ .
+       17 
+       18 /* Chapter 3 */
+       19 <declaration> ::= 'TYPE' { <typedec> / ',' }+ '.'
+       20                |  'INT'  { <intdec>  / ',' }+ '.'
+       21                |  'FN'   { <fndec>   / ',' }+ '.'
+       22                |  'MAC'  { <macdec>  / ',' }+ '.'
+       23                .
+       24 
+       25 /* Chapter 4 */
+       26 <typedec> ::= <name> '=' <type-denoter> .
+       27 
+       28 <type-denoter> ::= <new-type> | <derived-type> .
+       29 
+       30 <new-type> ::= <enumerated> .
+       31 
+       32 <derived-type> ::= <type> .
+       33 
+       34 <enumerated> ::= 'NEW' ( <enumeration-list> | <ELLA-int-type> ) .
+       35 
+       36 <enumeration-list> ::= '(' { <name> [ '&' <type> ] / '|' }+ ')' .
+       37 
+       38 <ELLA-int-type> ::=  <name> '/' '(' <int> '..' <int> ')' .
+       39 
+       40 <type> ::= <type1> [ '->' <type1> ] .
+       41 
+       42 <type1> ::= <name>
+       43          |  '[' <int> ']' <type1>  /* Note: changed to avoid ambiguity */
+       44          |  '(' { <type> / ',' }+ ')'
+       45          .
+       46 
+       47 /* Chapter 5 */
+       48 <intdec> ::= <name> '=' <int> .
+       49 
+       50 <int> ::= <formula> .
+       51 
+       52 <formula> ::= <formula1> { <dyadic-operator> <formula1> } .
+       53 
+       54 <formula1> ::= { <monadic-operator> } <formula2> .
+       55 
+       56 <formula2> ::= <name>
+
+SBNF Parser/LL(1) Verifier      version 1.0 (April 11, 2022)            page   2
+
+
+       57             |  <integervalue>
+       58             |  'IF' <boolean> 'THEN' <int> 'ELSE' <int> 'FI'
+       59             |  '(' <int> ')'
+       60             .
+       61 
+       62 <boolean> ::= <formula> .
+       63 
+       64 /* Chapter 6 */
+       65 <fndec> ::= <fnname> '=' <input> '->' <type> ':' <fnbody>
+       66 
+       67 /*
+       68          |  <fnname> '='
+       69               'FNSET' '(' { <input> '->' <type> / ',' }+ ')'
+       70                 ':' <fnbody>
+       71          |  <fnname> '='
+       72               'FNSET' '[' <int> ']' '(' <input> '->' <type> ')'
+       73                  ':' <fnbody>
+       74 */
+       75          .
+       76 
+       77 <input> ::= '(' { <type> ':' { <name> }+ / ',' }+ ')' .
+       78 
+       79 <fnbody> ::= <unit>
+       80           |  <sequence>
+       81           |  'ARITH' <int>
+       82           |  'REFORM'
+       83           |  'IMPORT'
+       84           |  'DELAY' '(' <values1> ','
+       85                 [ <int> ',' [ <values1> ',' ]] <int> ')'
+       86 /* Can do without next alternative. Covered by the one above. */
+       87 /*        |  'DELAY' '(' <values1> ',' <int> ',' <values1> ',' <int> ')' */
+       88           |  'IDELAY' '(' <values1> ',' <int> ')'
+       89           |  'RAM' '(' <values1> ')'
+       90           .
+       91 
+       92 /* Chapter 7 */
+       93 <sequence> ::= 'BEGIN' { <step> } 'OUTPUT' <unit> 'END'
+       94 /*
+       95             |  '(' { <step> } 'OUTPUT' <unit> ')'
+       96 */
+       97             .
+       98 
+       99 <step> ::= <declaration>
+      100         |                         'MAKE'  { <makeitem>  / ',' }+ '.'
+      101         |                         'LET'   { <letitem>   / ',' }+ '.'
+      102         |  [ 'FOR' <multiplier> ] 'JOIN'  { <joinitem>  / ',' }+ '.'
+      103         |                         'PRINT' { <printitem> / ',' }+ '.'
+      104         |                         'FAULT' { <faultitem> / ',' }+ '.'
+      105         .
+      106 
+      107 <makeitem> ::= [ '[' <int> ']' ]
+      108         (
+      109           <fnname> ':' { <name> }+
+      110         |
+      111           <macname> '{' <macparams> '}' ':' { <name> }+
+      112         )
+      113         .
+
+SBNF Parser/LL(1) Verifier      version 1.0 (April 11, 2022)            page   3
+
+
+      114 
+      115 <letitem> ::= <name> '=' <unit> .
+      116 
+      117 <joinitem> ::= <unit> '->' <name> [ '[' <int> ']' [ '[' <int> ']' ] ] .
+      118 
+      119 <multiplier> ::= { 'INT' <name> '=' <int> '..' <int> }+ .
+      120 
+      121 <printitem> ::= 'IF' <boolean> 'THEN' { <printable> }+ 'FI'
+      122              |  { <printable> }+
+      123              .
+      124 
+      125 <printable> ::= <string> | <name> .
+      126 
+      127 <faultitem> ::= <printitem> .
+      128 
+      129 /* Chapter 8 */
+      130 <unit> ::= <unit1> { ( <fnname>
+      131                      | <macname> '{' <macparams> '}'
+      132                      | 'CONC'
+      133                      ) <unit1> }
+      134         .
+      135 
+      136 <unit1> ::= <unit2> [ '//' <name> ]
+      137          |  <unit1-1> <unit1>
+      138          |  'IO' <name> [ '[' <int> ']' [ '[' <int> ']' ] ]
+      139          .
+      140 
+      141 <unit1-1> ::= <fnname>
+      142            |  <macname> '{' <macparams> '}'
+      143            |  '[' ( <int> | 'INT' <name> '=' <int> '..' <int> ) ']'
+      144            |  <name> '&'
+      145            .
+      146 
+      147 <unit2> ::= (  <name> [ '/' <formula2> ]
+      148             |  'IF' <boolean> 'THEN' <unit> 'ELSE' <unit> 'FI'
+      149             |  <bracketted>
+      150             )  { '[' <int> [ '..' <int> ] ']' }
+      151             .
+      152 
+      153 <bracketted> ::= '(' { <unit> / ',' }+ ')'
+      154               |  'CASE' <unit> 'OF' <choices>
+      155                    { 'ELSEOF' <choices> }
+      156                    [ 'ELSE' <unit> ]
+      157                  'ESAC'
+      158 /*
+      159               | '(' <unit> '|' { <choices> / '||' }+ [ '|' <unit> ] ')'
+      160 */
+      161               .
+      162 
+      163 <choices> ::= { <values> ':' <unit> / ',' }+ .
+      164 
+      165 <values> ::= { <values1> / '|' }+ .
+      166 
+      167 <values1> ::= <values2>
+      168            |  <name> '&' <values1>
+      169            |  '[' <int> ']' <values1>
+      170            .
+
+SBNF Parser/LL(1) Verifier      version 1.0 (April 11, 2022)            page   4
+
+
+      171 
+      172 <values2> ::= <name> [ '/' ( <formula2> | '(' <int> '..' <int> ')' ) ]
+      173            |  '(' { <values> / ',' }+ ')'
+      174            |  'IF' <boolean> 'THEN' <values> 'ELSE' <values> 'FI'
+      175            .
+      176 
+      177 /* Chapter 9 */
+      178 <macdec> ::= <macname> '{' <macspec> '}' '='
+      179                <input> '->' <type> ':' <fnbody> .
+      180 
+      181 <macspec> ::= { <mactype> { <name> }+ / ',' }+ .
+      182 
+      183 <mactype> ::= 'INT' | 'TYPE' .
+      184 
+      185 <macparams> ::= { <macparam> / ',' }+ .
+      186 
+      187 <macparam> ::= <int> | <type> .
+      188 
+      189 /*
+      190 <printitem> ::= see above
+      191 <printable> ::= see above
+      192 <faultitem> ::= see above
+      193 */
+
+No (compilation) errors detected
+Number of lines processed   :  193

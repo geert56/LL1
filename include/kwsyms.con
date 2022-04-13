@@ -1,0 +1,7 @@
+
+        {RESERVED WORDS:}
+        EMPTYkw         =       1;
+        EOLkw           =       2;
+        TABkw           =       3;
+
+        nrreservedwords =       3;

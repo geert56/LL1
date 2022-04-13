@@ -1,0 +1,16 @@
+{ CONCERNING ERRORS: }
+{ FLAGS: }
+        erroroccurred   : boolean;    {init = false}
+
+{ ERROR: }
+        totalwarnings,                {init = 0}
+        totalerrors     : cardinal;   {init = 0}
+        errorrecord     : record
+                            erridx : 0..maxerrperline;  {init = 0}
+                            errlist: array[1..maxerrperline] of
+                                       record
+                                         errnum : cardinal;
+                                         pos    : cardinal;
+                                       end; {init = undefined}
+                          end; {errorrecord}
+        errorsummary    : packed array[0..maxerrnr] of boolean; {init = false}

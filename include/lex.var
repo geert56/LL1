@@ -1,0 +1,36 @@
+{ SYMBOL: }
+        {coded representation of symbol lastly read}
+        symbol          : symbolkind;  {init = undefined}
+
+{ SETS: }
+        firstidentifier,                        {first chars in identifier}
+        decimaldigits   : setofchar;            {first chars in number}
+
+        notidentchar    : packed array[char] of boolean; { indicates chars not
+                                                    allowed in identifiers }
+
+{ SYMBOL ATTRIBUTES: }
+        {literal representation of symbol, identifiers and keywords only,
+         "maxidentstr" characters are significant, padded with blanks at the
+        right side}
+        identstr        : identstrtyp; {init = undefined}
+
+        {used for fast resetting of "identstr"}
+        blankidentstr   : identstrtyp; {init = all blanks}
+
+        {1-character symbol table:}
+        onecharsymbols  : array[char] of symbolkind;
+
+{ SYMBOL BUFFER: }
+        {actual length (= number of characters) of symbol}
+        {only applies to identifiers, numbers and char/string constants}
+        symlength       : symlenrange; {init = undefined}
+
+        {contains the literal character representation of the current symbol}
+        {only applies to identifiers, numbers and char/string constants}
+        {"symlength" denotes the number of valid characters in "symbuf"}
+        symbuf          : packed array[symbufidxrange] of char;
+                                                           {init = undefined}
+
+{ FLAGS: }
+        newlineseen     : boolean; {init = false}

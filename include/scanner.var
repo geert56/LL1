@@ -1,0 +1,13 @@
+        {last read character:}
+        ch              : char;                 {init = undefined}
+
+{ FLAGS: }
+        {keeps track of end-of-line conditions:}
+        atendofline,                            {init = true}
+
+        {letters in identifiers case distinct or not}
+        caseflag : boolean;                     {init = caseinsensitive}
+
+{ SETS: }
+        illegalchars    : setofchar;            {init = all chars to be
+                                                        considered illegal}
