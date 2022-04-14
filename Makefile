@@ -3,17 +3,17 @@
 INCLUDES = -Iinclude
 FPCFLAGS = $(INCLUDES) -g -O2
 
-PROG = parser
+PROG = ll1
 
 .PHONY: all
 all: $(PROG)
 
-parser: parser.p
+ll1: ll1.p
 	fpc $(FPCFLAGS) $<
 
 .PHONY: test
 test: $(PROG)
-	./parser ex/ella.tax
+	./$(PROG) ex/ella.tax
 
 .PHONY: clean
 clean:
