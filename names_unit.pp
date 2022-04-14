@@ -227,7 +227,7 @@ begin
     p := nametable[i];
     while p <> nil do
       with p^ do begin
-	write (output, tokenid, ' ':3);
+	 write (output, tokenid:3, ' ':3);
 
         case lit[1] of
                                   {1234567890123456}
