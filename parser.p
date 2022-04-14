@@ -20,6 +20,8 @@ uses
   names_unit,
   ll1_unit;
 
+var i : integer;
+
 procedure sbnf_parser;
 var
         savep,
@@ -777,6 +779,16 @@ begin {sbnf_parser}
 end; {sbnf_parser}
 
 begin {main}
+   {Parse cmdline arguments:}
+   for i := 1 to paramCount() do begin
+      {writeLn(stderr, i:2, '. argument: ', paramStr(i));}
+   end;
+
+   if paramCount() > 0 then begin
+      assign(input, paramStr(1));
+      reset(input);
+   end;
+
    initLex;
    initNameTable;
 
