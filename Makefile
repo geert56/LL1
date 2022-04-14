@@ -13,7 +13,7 @@ parser: parser.p
 
 .PHONY: test
 test: $(PROG)
-	./parser < ex/newll1.test
+	./parser ex/ella.tax
 
 .PHONY: clean
 clean:
