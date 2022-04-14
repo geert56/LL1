@@ -1,4 +1,4 @@
-program parser_module (input, output, erroutput);
+program parser_module (input, output, stderr);
 
 {author:
 
@@ -712,7 +712,7 @@ begin {production_rule}
 end; {production_rule}
 
 begin {sbnf_parser}
-writeln (stderr, 'sbnf_parser');
+  {writeln (stderr, 'sbnf_parser');}
 
   atombeginsyms  := [ epsilonsym, terminalsym, LESSop, identifier,
                       EMPTYkw, EOLkw, TABkw ];
@@ -769,7 +769,7 @@ writeln (stderr, 'sbnf_parser');
     {else symbol=fileend}
   end; {if}
 
-   writeln(erroutput, 'Successfully parsed input.');
+  {writeln(stderr, 'Successfully parsed input.');}
   {post: all non-terminals on rhs have undecided state;
          nrnonterminals >= nrproductions
   }
