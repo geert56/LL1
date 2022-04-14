@@ -1,0 +1,16 @@
+sequence : 'BEGIN' N_22 'OUTPUT' unit 'END' ;
+N_22 :  ;
+N_22 : step N_22 ;
+step : N_23 ;
+N_23 : declaration ;
+N_26 :  ;
+N_26 : 'FOR' multiplier ;
+N_23 : N_26 'JOIN' joinitem N_27 '.' ;
+N_23 : 'PRINT' printitem N_28 '.' ;
+/*
+sequence : 'BEGIN' N_22 'OUTPUT' unit 'END' ;
+N_22 : step N_22 | ;
+step : N_23 ;
+N_23 : 'PRINT' printitem N_28 '.' | N_26 'JOIN' joinitem N_27 '.' | declaration ;
+N_26 : | 'FOR' multiplier ;
+*/

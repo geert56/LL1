@@ -1,0 +1,40 @@
+propagation rules for follow sets
+---------------------------------
+
+assume:
+        grammar consists of useful rules only
+        each non-terminal appears exactly once on the left-hand side of a rule
+        all empty-string violations against LL(1) are already reported
+        all first sets determined
+
+in context
+<: E >
+follow(E) = follow(RN)
+
+in context
+<* E >
+<+ E >
+follow(E) = first(E) + follow(context)
+
+in context
+<? E >
+follow(E) = follow(context)
+
+in context
+<| T ... >
+follow(T) = follow(context)
+
+in context
+<. F ... >
+follow(Fi) = first(Fi+1) +  U         first(Fk+1) 
+                          null(Fk)
+                          i < k < n
+
+             + if (null(Fk) for i+1 <= k <= n) then follow(context)
+
+in context
+<\ E A >
+follow(E) = first(A) + if null(A) then first(E) + follow(context)
+
+A non-terminal then
+follow(A) = first(E) + if null(E) then (first(A) + follow(context))

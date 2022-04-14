@@ -1,0 +1,79 @@
+(*
+ DOCUMENTATION INFORMATION                               module: LANGUAGE TOOL
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ system    : HP/9000
+ file      : ebnf.tax
+ unit-title: EBNF CONCRETE SYNTAX
+ ref.      : Backhouse , Syntax of Programming Languages
+ author(s) : G.L.J.M. Janssen
+ date      : 10-JUN-1985
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+*)
+
+(* EXTENDED BACKUS-NAUR FORM (EBNF)  EXPRESSED IN EBNF
+
+   The non-terminal on the left-hand side of the first production,
+   in this case <syntax>,
+   is considered to be the start symbol of the grammar.
+   The grammar is augmented with the production rule:
+
+   <start-symbol-nowhere-appearing-on-right-hand-side> ::= <syntax> <EOS> .
+
+   where <EOS> is a pseudo-nonterminal that uniquely marks the termination
+   of an input string.
+
+   In this syntax definition the following non-terminal symbols are
+   regarded as terminals:
+
+      <nonterminal-symbol>          ( name enclosed by < and > )
+      <terminal-symbol>             ( string enclosed by " )
+      <separator>                   ( " " | <TAB> | <EOL> | <comment> )
+      <replacement-symbol>          ( "::=" )
+      <period>                      ( "." )
+      <choice-symbol>               ( "|" )
+      <left-parenthesis>            ( "(" )
+      <right-parenthesis>           ( ")" )
+      <left-curly-brace>            ( "{" )
+      <right-curly-brace>           ( "}" )
+      <closure0-symbol>             ( "}*" )
+      <closure1-symbol>             ( "}+" )
+      <left-bracket>                ( "[" )
+      <right-bracket>               ( "]" )
+
+   The definition of these symbols can be found in the file "ebnf.lex".
+
+*)
+
+
+<syntax> ::= { <white-space> <production-rule> } <white-space> .
+
+<production-rule> ::=               <nonterminal-symbol>
+                      <white-space> <replacement-symbol>
+                      <white-space> <expression>
+                      <white-space> <period> .
+
+<expression> ::= <term>
+                   { <white-space> <choice-symbol> <white-space> <term> } .
+
+<term> ::= <factor> { <white-space> <factor> } .
+
+<factor> ::= <nonterminal-symbol> |
+             <terminal-symbol> |
+             <left-parenthesis> <white-space>
+                   <expression> <white-space> <right-parenthesis> |
+             <left-curly-brace> <white-space>
+                   <expression> <white-space> <right-curly-brace> |
+             <left-curly-brace> <white-space>
+                   <expression> <white-space> <closure0-symbol> |
+             <left-curly-brace> <white-space>
+                   <expression> <white-space> <closure1-symbol> |
+             <left-bracket> <white-space>
+               <expression> <white-space> <right-bracket> .
+
+<white-space> ::= { <separator> } .
+
+(* Here the rule for <separator> is made empty in order not to blur the FIRST-
+   sets. See the file "ebnf.lex" for its proper production rule.
+*)
+
+<separator> ::= <EMPTY> .

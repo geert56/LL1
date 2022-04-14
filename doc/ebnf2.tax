@@ -1,0 +1,64 @@
+(*
+ DOCUMENTATION INFORMATION                               module: LANGUAGE TOOL
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ system    : HP/9000
+ file      : ebnf.tax
+ unit-title: EBNF CONCRETE SYNTAX (<white-space> removed)
+ ref.      : Backhouse , Syntax of Programming Languages
+ author(s) : G.L.J.M. Janssen
+ date      : 10-JUN-1985
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+*)
+
+(* EXTENDED BACKUS-NAUR FORM (EBNF)  EXPRESSED IN EBNF
+
+   The non-terminal on the left-hand side of the first production,
+   in this case <syntax>,
+   is considered to be the start symbol of the grammar.
+   The grammar is augmented with the production rule:
+
+   <start-symbol-nowhere-appearing-on-right-hand-side> ::= <syntax> <EOS> .
+
+   where <EOS> is a pseudo-nonterminal that uniquely marks the termination
+   of an input string.
+
+   In this syntax definition the following non-terminal symbols are
+   regarded as terminals:
+
+      <nonterminal-symbol>          ( name enclosed by < and > )
+      <terminal-symbol>             ( string enclosed by " )
+      <replacement-symbol>          ( "::=" )
+      <period>                      ( "." )
+      <choice-symbol>               ( "|" )
+      <left-parenthesis>            ( "(" )
+      <right-parenthesis>           ( ")" )
+      <left-curly-brace>            ( "{" )
+      <right-curly-brace>           ( "}" )
+      <closure0-symbol>             ( "}*" )
+      <closure1-symbol>             ( "}+" )
+      <left-bracket>                ( "[" )
+      <right-bracket>               ( "]" )
+
+   The definition of these symbols can be found in the file "ebnf.lex".
+
+*)
+
+
+<syntax>          ::= { <production-rule> } .
+
+<production-rule> ::= <nonterminal-symbol>
+                      <replacement-symbol>
+                      <expression>
+                      <period> .
+
+<expression>      ::= <term> { <choice-symbol> <term> } .
+
+<term>            ::= <factor> { <factor> } .
+
+<factor>          ::= <nonterminal-symbol>
+                   |  <terminal-symbol>
+                   |  <left-parenthesis> <expression> <right-parenthesis>
+                   |  <left-curly-brace> <expression> <right-curly-brace>
+                   |  <left-curly-brace> <expression> <closure0-symbol>
+                   |  <left-curly-brace> <expression> <closure1-symbol>
+                   |  <left-bracket>     <expression> <right-bracket> .

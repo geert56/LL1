@@ -1,0 +1,56 @@
+(* syntax for binary parse trees *)
+(*$C+*)
+
+         G  = "<$" { R } ">" .
+
+         R  = "<:" N  E ">" .
+
+         E  = T 
+            | "<|" T { T }+ ">" .
+
+         T  = Fl 
+            | "<," Fl { Fl }+ ">" .
+
+         Fl = F 
+            | "<." F { F }+ ">" .
+
+         F  = A 
+            | E
+            | ( "<+" | "<*" | "<?" ) E ">"
+            | "</" E A ">" .
+
+         A  = t | N | "^" .
+
+(*
+        leaf nodes are:
+
+        symbol:         meaning:
+
+        ^               explicit empty string (Greek epsilon)
+        t               terminal symbol (written between single quotes)
+        N               non-terminal symbol (written as identifier)
+
+        constructor nodes are:                          #arguments
+
+        $               grammar                         >= 0
+        :               production rule                    2
+        |               alternatives                    >= 2
+        ,               factor blocks                   >= 2
+        .               factor sequences                >= 2
+        +               one or more times                  1
+        *               zero or more times                 1
+        ?               zero or one time                   1
+        /               conditional one or more times      2
+
+        (sub-)tree variables:
+
+        symbol:         identifies:
+
+        G               grammar, root of tree
+        R               rule sub-tree
+        E               expression sub-tree
+        T               term sub-tree
+        Fl              factor list sub-tree
+        F               factor sub-tree
+        A               leaf node
+*)

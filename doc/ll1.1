@@ -1,0 +1,134 @@
+.TH LL1 1
+.ad b
+.SH NAME
+ll1 - ll1 a LL(1) grammar verifier/language tool
+.SH SYNOPSIS
+ll1 < grammar-file > diagnostics
+.SH DESCRIPTION
+This program reads a grammar written in the extended BNF (Super-BNF) notation
+and checks if it complies with the LL(1) condition. Any violations are
+reported to standard output. A nice listing is produced in the file listing.
+This listing is a copy of the input file (standard input) separated into
+pages (66 lines/page, actually 56 numbered input lines per page) with an
+informative header. Any read-time errors will be directly reported in the
+listing at the appropriate place. listing can directly be printed using 'lpr'.
+
+Also the following diagnostic information is provided:
+
+     - some statistics about the grammar
+.br
+     - the grammar as it is processed
+.br
+     - a list of the inaccessible non-terminals
+.br
+     - a list of the non-terminating non-terminals
+
+The main difference between this ll1 program and the older ll1 program
+is the way the production rules are internally processed. ll1 flattens the
+syntax to a so-called RBNF normal form; ll1 retains the inherent structure
+on the right hand side of the productions. This facilitates among others much
+better diagnostic messages: they are expressed in terms of the user input.
+.PP
+Some vital messages are written to standard error.
+Grammars with left-recursive rules and/or non-terminating rules cannot be
+fully processed; such cases will be appropriately flagged and the program
+then aborts in an inelegant way (Pascal!) through a forced run-time error.
+.SH HOW IT WORKS
+The input file containing the BNF syntax is parsed and compiled
+into the internal grammar tree data structure. While compiling
+the listing output file is generated, clearly marking any SBNF syntax
+errors.
+.PP
+The second stage of the program uses the grammar tree data structure
+to determine whether the syntax describes an LL(1) grammar.
+Intermediate steps determine the FIRST and FOLLOW sets of each non-
+terminal and the LOOKAHEAD set for each useful production.
+Comparing the LOOKAHEAD sets of production rules with the same non-
+terminal on its left hand side provides the information about the
+LL(1) condition.
+
+The program is written in Pascal.
+.SH HOW TO USE
+The program expects its input form standard input.
+In this file a grammar must be given in either RBNF, EBNF or SBNF
+notation. For the syntax of these notations see the section on FILES below.
+.SH EXAMPLE
+.PP
+Suppose you have the following grammar in the file "example1.tax" :
+
+ <example>            ::= <first-part> <second-part> .
+ <first-part>         ::= {"a"} ["b"] .
+ <second-part>        ::= {"c"} "b" | <non-terminating-nt> .
+ <inaccessible-nt>    ::= <dummy> .
+ <non-terminating-nt> ::= "d" <non-terminating-nt> .
+
+ Now run ll1 :
+ ll1 <example1.tax >diagnostics
+
+ (the listing will be in the file listing)
+
+ After program execution you can have a look at the results by:
+ more diagnostics
+.SH CONDITIONS
+The length of terminal and non-terminal symbols is restricted to 64 significant
+characters. There is no harm if you use longer names, but be aware that they
+will be treated as identical when the first 64 characters agree. When using
+the tool "syntaxdiagram" to generate nice pictorial syntax forms too long
+symbols will be truncated to 64 characters.
+.PP
+The non-terminal on the left-hand side of the first production,
+is always considered to be the start symbol of the grammar.
+.PP
+Non-terminals names are matched case insensitive by default,
+this also applies to the pseudo non-terminals (reserved words of the
+meta-language).
+However, in
+case sensitive mode <TAB> is certainly something else as
+for instance <Tab> .
+.PP
+Terminal symbols are always matched case sensitive.
+.PP
+Whether non-terminals with the same letter spelling but different
+letter case for some or all letters are equivalent, can be
+controlled by a BNF-compiler option flag.
+To enter case sensitive mode enclose the following construct
+in comment brackets in your grammar definition:
+
+        $C+
+.PP
+The number of terminal plus non-terminal symbols is restricted by a program
+constant. You will get an error message if you overflow this bound. In
+practice this will hardly ever occur.
+.SH FILES
+The ll1 executable file can be found is:
+.br
+/usr/bin/ll1
+
+Info about the meta-language can be found in:
+.br
+ebnf.lex, rbnf2.tax, ebnf3.tax,	sbnf.tax
+
+The example input can be found in the file:
+.br
+example1.tax
+.SH CONTRIBUTED BY
+G.L.J.M. Janssen    room : EH 7.27    phone: 3387
+.br
+original :  20-April-1993, latest: April 14, 2022
+
+Complaints and/or suggestions are welcomed.
+.SH STATUS
+preliminary
+.SH SEE ALSO
+.PP
+[1]   Syntax of Programming Languages:
+.br
+      Theory and Practice,
+.br
+      R. Backhouse
+.br
+      Prentice-Hall International
+
+[2]   Any book on Parsing and Compiler construction
+
+[]    Many articles and papers.

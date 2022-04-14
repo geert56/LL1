@@ -1,0 +1,62 @@
+    {syntax:      <expression> ::= <term> (: | <term> :) . }
+    {empty terms are all collapsed into one.}
+
+    T1 | T2 | T3 ...   -->     <T'>
+                            ------------
+                            <T'> ::= T1.
+                            <T'> ::= T2.
+                            <T'> ::= T3.
+
+      {syntax:    <term> ::= <factor> (: <factor> :) . }
+      {semantics: chaining of a number of factor lists.}
+      {special treatment for (sub-sequences) of empty factors;
+        but note that factor already collapses a sequence of
+        empty symbols into 1 empty symbol.
+      }
+
+    "(" <E> ")"   -->     <E>
+
+    transitive closure:
+
+    "(:" <E> ":)" -->  <E> <E'>               not <E> = <EMPTY>
+                     ------------------
+                     <E'> ::= <>.
+                     <E'> ::= <E> <E'>.
+
+    conditional transitive closure:
+
+    "(:" <E> "/" <A> ":)+" -->  <E> <E'>               not <E> = <EMPTY>
+                              ------------------       not <A> = <EMPTY>
+                              <E'> ::= <>.
+                              <E'> ::= <A> <E> <E'>.
+
+    NOTE that in the last 2 cases we need to make a copy of <E> in order not to
+    disturb the possible removal of this expression.
+
+    conditional transitive closure:
+
+    "(:" <E> "/" <A> ":)+" -->  <E> <E'>               not <E> = <EMPTY>
+                              ------------------           <A> = <EMPTY>
+                              <E'> ::= <>.
+                              <E'> ::= <E> <E'>.
+    (reduces to (: <E> :)+ )
+
+    reflexive, transitive closure:
+
+    "(:" <E> ":)" -->      <E'>               not <E> = <EMPTY>
+                     ------------------
+                     <E'> ::= <>.
+                     <E'> ::= <E> <E'>.
+
+    conditional transitive closure:
+
+    "(:" <E> "/" <A> ":)" -->      <E'>                   <E> = <EMPTY>
+                             ------------------       not <A> = <EMPTY>
+                             <E'> ::= <>.
+                             <E'> ::= <A> <E'>.
+
+    "[" <E> "]" -->      <E'>                 not <E> = <EMPTY> .
+                    -------------
+                    <E'> ::= <E>.
+                    <E'> ::= <>.
+

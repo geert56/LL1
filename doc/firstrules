@@ -1,0 +1,34 @@
+propagation rules for first sets
+--------------------------------
+
+assume:
+        grammar consists of useful rules only
+        each non-terminal appears exactly once on the left-hand side of a rule
+        all empty-string violations against LL(1) are already reported
+        (see "passdecision" routine)
+
+
+first("^") = []
+
+first(t) = [t]
+
+first(N) = first(RN)    where RN is rule associated with N
+
+first(<* E>) = first(<? E>) = first(E), not null(E)
+(note: already reported LL(1) violation for null(E))
+
+first(<+ E>) = first(E)
+
+first(</ E A) = first(E), not null(E)
+              = first(E) + first(A), null(E) and not null(A)    #check#
+(note: already reported LL(1) violation for null(E) and null(A))
+
+first(<. F{F}+>) = U first(Fk), 1 <= i < k null(Fi) and not null(Fk) #check#
+
+first(<| T{T}+>) = U first(T)   #check#
+(note: already reported LL(1) violation for 2 or more null(T) )
+
+first(R) = first(<: E>) = first(E)
+
+cases marked #check# need a check to see if the united first sets are non-
+overlapping, i.e. have no elements in common; otherwise again LL(1) violated.

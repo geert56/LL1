@@ -1,0 +1,6 @@
+(*$C+*)
+
+S -> a b V .
+V -> U b U .
+U -> S R | V U U |  .
+R -> V | c .

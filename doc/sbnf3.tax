@@ -1,0 +1,45 @@
+(*
+  DOCUMENTATION INFORMATION                               module: LANGUAGE TOOL
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  system    : HP/9000
+  file      : sbnf3.tax
+  unit-title: SUPER-BNF CONCRETE SYNTAX
+  ref.      : ebnf.lex, sbnf.tax
+  author(s) : G.L.J.M. Janssen
+  date      :  1-AUG-1988
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+*)
+
+(* SUPER BACKUS-NAUR FORM (SBNF)  EXPRESSED IN ITSELF *)
+
+<Super-BNF-syntax> ::= <production-rule> * .
+
+<production-rule>  ::=
+     <nonterminal-symbol>
+       <replace-symbol> <expression> <rule-terminator> .
+
+<expression>      ::= { <term> / <choice-symbol> } + .
+
+<term>            ::= { <factor-list> / <line-passages> } * .
+
+<factor-list>     ::= <factor> + .
+
+<factor>          ::= <primary> [ "+" | "*" | "?" ]
+                   |  <separated-list>
+                   |  <option-construct> .
+
+<primary>         ::= <atomic-symbol>
+                   |  "(" <expression> ")"
+                   .
+
+<separated-list>  ::=
+  "{" <expression> [ <separator-symbol> <atomic-symbol> ] "}" [ "+" | "*" ] .
+
+
+<option-construct> ::= "[" <expression> "]" .
+
+<atomic-symbol>   ::= <terminal-symbol>
+                   |  <nonterminal-symbol>
+                   |  <empty-symbol> .
+
+<line-passages>   ::= <EOL> + .

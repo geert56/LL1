@@ -1,0 +1,13 @@
+<example>            ::= <first-part> <second-part> .
+<first-part>         ::= {"a"} ["b"] .
+<second-part>        ::= {"c"} "b" | <nt> .
+<inaccessible-nt>    ::= <dummy> .
+<nt> ::= A | B | C D E .
+A ::= 'x'.
+B ::= .
+C ::= D | E .
+D ::= F E .
+E ::= 'z' E .
+(*
+<non-terminating-nt> ::= "d" <non-terminating-nt> .
+*)

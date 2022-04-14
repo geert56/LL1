@@ -1,0 +1,78 @@
+(*
+  DOCUMENTATION INFORMATION                               module: LANGUAGE TOOL
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  system    : HP/9000
+  file      : sbnf.tax
+  unit-title: SUPER-BNF CONCRETE SYNTAX
+  ref.      : ebnf.lex
+  author(s) : G.L.J.M. Janssen
+  date      :  1-AUG-1988
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+*)
+
+(* SUPER BACKUS-NAUR FORM (SBNF)  EXPRESSED IN ITSELF
+
+   The non-terminal on the left-hand side of the first production,
+   in this case <Super-BNF-syntax>,
+   is considered to be the start symbol of the grammar.
+
+   Super-BNF is especially designed to facilitate the syntax diagram plot
+   program. Because of the extended operator set in sbnf the diagram drawing
+   can be better influenced by the user.
+
+   One or more new-lines may appear between any two factor-lists. Then and
+   only then are they significant in the sense that they cause a certain
+   diagram drawing action. New-lines appearing in other positions are treated
+   as white-space. The action of more than 1 subsequent new-lines separating
+   factor-lists is the same as had there been just 1.
+
+   The drawing rules, i.e. the transformation from textual grammar
+   meta-language to syntax diagrams, are best explained by means of examples.
+   Still here is an attempt to clarify the rules verbally:
+
+   diagrams are drawn on a per rule basis.
+
+   a complete diagram for 1 production rule must fit on 1 page.
+
+   a diagram is labeled with the left-hand side non-terminal of its
+   corresponding production rule.
+
+   terminal names are put in boxes with rounded corners (oval),
+   non-terminal names are placed in rectangular boxes. Note: non-terminals
+   without a corresponding rule, i.e. they do not occur on a left-hand side,
+   are still drawn as non-terminals. To get an oval box you must explicitly
+   denote the name as a terminal, e.g. by putting the name in single quotes.
+
+   elements of a factor-list, thus a concatenation of factors not interleaved
+   with new-lines, are drawn side by side retaining the left-to-right order.
+   A new-line between factor-lists causes a sort of carriage return-line feed
+   action: the next factor-list is drawn below (under) the previous one, nicely
+   indented by 2 (by default) character positions.
+
+   elements of a list of choices, these are called terms, are all drawn
+   centered one below the other, again the order of appearance is preserved.
+*)
+
+<Super-BNF-syntax>::= { <production-rule> } .
+
+<production-rule> ::=
+     <nonterminal-symbol> "::=" <expression> "." .
+
+<expression>      ::= { <term> / "|" }+ .
+
+<term>            ::= [ { <factor-list> / <line-passages> }+ ] .
+
+<factor-list>     ::= { <factor> }+ .
+
+<factor>          ::= <atomic-symbol>
+                   |  "(" <expression> ")"
+                   |  "{" <expression> "}"
+                   |  "{" <expression> "}+"
+                   |  "{" <expression> <separator-symbol> <atomic-symbol> "}+"
+                   |  "[" <expression> "]" .
+
+<line-passages>   ::= { <EOL> }+ .
+
+<atomic-symbol>   ::= <terminal-symbol>
+                   |  <nonterminal-symbol>
+                   |  <empty-symbol> .

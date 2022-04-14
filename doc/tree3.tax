@@ -1,0 +1,65 @@
+(* syntax binary parse trees for LL(1) verifier *)
+(*
+        general outline of non-leaf tree:
+
+        < constructor state-info contents backlink >
+
+        constructor = "$" | ":" | "|" | "." | "?" | "*" | "+" | "/" .
+        state-info  = "(" empty-state "," first-decided ")" .
+        empty-state = "y" | "n" | "u" .
+        first-decided = "F" | "T" .
+        contents    = leaf | tree .
+        backlink    = "->" ( constructor | "nil" ) .
+*)
+
+(*$C+*)
+
+         G  = "<$" { R } ">" .
+
+         R  = "<:" N E ">" .
+
+         E  = T
+            | "<|" T { T }+ ">" .
+
+         T  = F
+            | "<." F { F }+ ">" .
+
+         F  = P
+            | ( "<+" | "<*" | "<?" ) E ">"
+            | "</" E A ">" .
+
+	 P  = A | E .
+
+         A  = t | N | "^" .
+
+(*
+        leaf nodes are:
+
+        symbol:         meaning:
+
+        ^               explicit empty string (Greek epsilon)
+        t               terminal symbol (written inbetween single quotes)
+        N               non-terminal symbol (written as identifier)
+
+        constructor nodes are:                          #arguments
+
+        $               grammar                         >= 0
+        :               production rule                    1
+        |               alternatives                    >= 2
+        .               factor sequences                >= 2
+        +               one or more times                  1
+        *               zero or more times                 1
+        ?               zero or one time                   1
+        /               conditional one or more times      2
+
+        (sub-)tree variables:
+
+        symbol:         identifies:
+
+        G               grammar, root of tree
+        R               rule sub-tree
+        E               expression sub-tree
+        T               term sub-tree
+        F               factor sub-tree
+        A               leaf node
+*)
