@@ -136,7 +136,7 @@ end; {listerrors}
 procedure initError;
 var i : cardinal;
 begin
-writeln(erroutput, 'initError');
+  {writeln(stderr, 'initError');}
   for i := 0 to maxerrnr do errorsummary[i] := false;
   erroroccurred         := false;
   errorrecord.erridx    := 0;

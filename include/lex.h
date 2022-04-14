@@ -108,7 +108,7 @@ else
   end; {otherwise}
 
   end; {case-if}
-  writeln(erroutput, '*symbol: ', symbol);
+  {writeln(stderr, '*symbol: ', symbol);}
 end; {getsymbol}
 
 procedure skipuntil(symset : setofsymbol);
@@ -132,7 +132,7 @@ var
         i  : identstridxrange;
         valididentchars : setofchar;
 begin
-  writeln(erroutput, 'initLex');
+  {writeln(stderr, 'initLex');}
   initScanner;
 
   getch;

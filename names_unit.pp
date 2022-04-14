@@ -273,7 +273,7 @@ procedure initNameTable;
 var
         i : cardinal;
 begin
-  writeln(erroutput, 'initNameTable');
+  {writeln(stderr, 'initNameTable');}
   nrtokens              := 0;
   nrterminals           := 0;
   nrnonterminals        := 0;

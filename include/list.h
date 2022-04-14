@@ -39,7 +39,7 @@ end; {pageupdate}
 
 procedure initList;
 begin
-     writeln(erroutput, 'initList');
+     {writeln(stderr, 'initList');}
 {*  open(listing, 'LISTING', 'UNKNOWN');}
      {FIXME rewrite(listing, 'listing');}
 

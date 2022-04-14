@@ -1,6 +1,6 @@
 procedure initScanner;
 begin
-     writeln(erroutput, 'initScanner');
+     {writeln(stderr, 'initScanner');}
 {*}  illegalchars := [chr(0)..chr(31), chr(127)..chr(255)]
                      {except TAB;} - [TAB];
 
