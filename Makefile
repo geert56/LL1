@@ -1,7 +1,7 @@
 # Copyright 2022 Geert Janssen
 
 INCLUDES = -Iinclude
-FPCFLAGS = $(INCLUDES) -g
+FPCFLAGS = $(INCLUDES) -g -O2
 
 PROG = parser
 
