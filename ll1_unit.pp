@@ -11,7 +11,7 @@ implementation
 procedure abortProgram;
 begin
   finalLex;
-  writeln (erroutput, 'LL(1) Program deliberately aborted.');
+  writeln (stderr, 'LL(1) Program deliberately aborted.');
   { goto 9999; does not work on Apollo! }
   Halt;
 end; {abortProgram}
