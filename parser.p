@@ -785,8 +785,14 @@ begin {main}
    end;
 
    if paramCount() > 0 then begin
+      {$I-}
       assign(input, paramStr(1));
       reset(input);
+      {$I+}
+      if IoResult <> 0 then begin
+	 writeln(stderr, '(E): cannot read file: ', paramStr(1));
+	 Halt;
+      end;
    end;
 
    initLex;
