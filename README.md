@@ -6,17 +6,20 @@ This language tool is a resurrection of code developed at Eindhoven University
 in 1993 or thereabouts. Its roots go back even further e.g. a program to
 generate railroad diagrams for grammars was developed in the late 1980s.
 
-The original program was written in Hewlett-Packard Pascal and uses separate
-compilation of several modules. The resurrection merely consisted of porting
-the dialect of Pascal to Free Pascal. This way it now compiles and runs on
-many modern architectures.
+The original program was written in Pascal and ran on Apollo Domain
+workstations and later Hewlett-Packard HP9000 minicomputers.
+The resurrection merely consisted of porting the dialect of Pascal to Free
+Pascal. This way it now compiles and runs on many modern architectures.
 
 ## Introduction
 
 An LL(1) checker is a formal language tool that checks whether a given grammar
-complies with the LL(1) conditions. This means that the grammar must not be
+complies with the LL(1) condition. This means that the grammar must not be
 left-recursive and that in all cases at most 1 token look-ahead suffices to
-decide which production rule applies.
+decide which production rule applies for a particular non-terminal occurrence
+on the right-hand side of a rule. (The program actually checks for the
+so-called **strong** LL(1) condition, which stipulates that any input seen so
+far is irrelevant to the decision).
 
 The grammar is specified in a very flexible Domain Specific Language (DSL)
 dubbed SBNF which stands for Super Backus-Naur Form. John Backus and Peter
