@@ -1,0 +1,32 @@
+/* R. Backhouse 1979, page 93 */
+
+program_block ::= block '.' .
+block ::= 'begin' blocktail .
+blocktail ::= declaration blocktail | statement_list 'end' .
+declaration ::= 'label' idlist | 'integer' idlist .
+idlist ::= identifier rest_of_idlist .
+rest_of_idlist ::= ';' | ',' idlist .
+statement_list ::= optional_label_part optional_statement rest_of_list .
+optional_label_part ::= <> | identifier ':' .
+optional_statement ::= <> | statement .
+rest_of_list ::= <> | ';' statement_list .
+statement ::= assignment | transfer | conditional | write | block .
+assignment ::= expression '=>' identifier rest_of_assignment_list .
+rest_of_assignment_list ::= <> | '=>' identifier rest_of_assignment_list .
+transfer ::= 'goto' identifier .
+conditional ::= 'if' expression 'then' statement_list optional_else 'fi' .
+optional_else ::= <> | 'else' statement_list .
+write ::= 'output' '(' output_list ')' .
+output_list ::= expression more_output .
+more_output ::= <> | ',' expression more_output .
+expression ::= exp1 rest_of_expression .
+rest_of_expression ::= <> | relop exp1 .
+exp1 ::= exp2 rest_of_exp1 .
+rest_of_exp1 ::= <> | addop exp2 rest_of_exp1 .
+exp2 ::= exp3 rest_of_exp2 .
+rest_of_exp2 ::= <> | mulop exp3 rest_of_exp2 .
+exp3 ::= positive_exp3 | '-' positive_exp3 .
+positive_exp3 ::= 'input' | identifier | constant | '(' expression ')' .
+relop ::= '<' | '>' | '=' .
+addop ::= '+' | '-' .
+mulop ::= '*' | '/' .
