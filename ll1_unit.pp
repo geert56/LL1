@@ -16,15 +16,15 @@ begin
   Halt;
 end; {abortProgram}
 
-{$I 'disposetree.h'}
-{$I 'findrule.h'}
-{$I 'removerule.h'}
-{$I 'copynode.h'}
-{$I 'printexcerpt.h'}
-{$I 'printconstruct.h'}
-{$I 'printtree.h'}
-{$I 'report.h'}
-{$I 'passdecision.h'}
+{$I 'disposetree.p'}
+{$I 'findrule.p'}
+{$I 'removerule.p'}
+{$I 'copynode.p'}
+{$I 'printexcerpt.p'}
+{$I 'printconstruct.p'}
+{$I 'printtree.p'}
+{$I 'report.p'}
+{$I 'passdecision.p'}
 
 procedure writestatistics;
 begin
@@ -46,8 +46,8 @@ var     i       : tokenidrange;
         p       : nodeptr;
         needheader : boolean;
 
-{$I 'removeinacc.h'}
-{$I 'removenont.h'}
+{$I 'removeinacc.p'}
+{$I 'removenont.p'}
 
 begin {checkgrammar}
   {change all non-terminals not appearing on left-hand side of production rule
@@ -110,13 +110,13 @@ writeln (output);
   }
 end; {checkgrammar}
 
-{$I 'initfirstdet.h'}
-{$I 'passfirstup.h'}
-{$I 'checkleftrec.h'}
-{$I 'rightwalk.h'}
-{$I 'initfollowdet.h'}
-{$I 'detfollow.h'}
-{$I 'firfol.h'}
+{$I 'initfirstdet.p'}
+{$I 'passfirstup.p'}
+{$I 'checkleftrec.p'}
+{$I 'rightwalk.p'}
+{$I 'initfollowdet.p'}
+{$I 'detfollow.p'}
+{$I 'firfol.p'}
 
 procedure resetvisited (grammar : nodeptr);
 {pre: grammar^.kind = grammarkind}
@@ -133,7 +133,7 @@ begin
   end; {with}
 end; {resetvisited}
 
-{ %INCLUDE 'genparser.h' }
+{ %INCLUDE 'genparser.p' }
 
 procedure processgrammar (grammar : nodeptr);
 begin

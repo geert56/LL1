@@ -27,11 +27,11 @@ implementation
 
 {$GOTO ON}
 
-{$I 'list.h'}
-{$I 'error.h'}
-{$I 'scanner.h'}
-{$I 'kwtab.h'}
-{$I 'symbuf.h'}
-{$I 'lex.h'}
+{$I 'list.p'}
+{$I 'error.p'}
+{$I 'scanner.p'}
+{$I 'kwtab.p'}
+{$I 'symbuf.p'}
+{$I 'lex.p'}
 
 end.
