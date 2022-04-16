@@ -3,6 +3,14 @@ procedure commentorDIVIDEsym;
   {pre: ch = '/'}
 begin
   getch;
+  if ch = '/' then begin { C++-style line comment }
+    {skip the comment text:}
+    repeat
+      getch;
+    until (ch = EOLINE) or (ch = EOFILE);
+    if ch = EOLINE then getch;
+  end
+  else
   if ch <> '*' then begin
 { DIVIDE BY SYMBOL: }                                                   { / }
     symbol := DIVIDEsym;
