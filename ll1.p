@@ -373,7 +373,7 @@ var
                   if startp^.kind = condoneormore then begin
                     if startp^.state = yes then
                       error (204);
-{LL(1) conflict : E in (. E / A .)* construct may be empty}
+{LL(1) conflict : E in (: E / A :)* construct may be empty}
 
                     finalp := startp;
                     new (startp{, optional});
@@ -391,7 +391,7 @@ var
                   else begin {kind = zeroormore}
                     if startp^.state = yes then
                       error (208)
-{LL(1) conflict : E in (. E .)* construct may be empty}
+{LL(1) conflict : E in (: E :)* construct may be empty}
                     else
                       startp^.state := yes;
                   end; {if}
@@ -407,7 +407,7 @@ var
 { (: E / A :) }
                 if startp^.state = yes then
                   error (205);
-{LL(1) conflict : E in (. E / A .) construct may be empty}
+{LL(1) conflict : E in (: E / A :) construct may be empty}
 
                 finalp := startp;
                 new (startp{, optional});
@@ -426,7 +426,7 @@ var
 { (: E :) }
                 if startp^.state = yes then
                   error (209)
-{LL(1) conflict : E in (. E .) construct may be empty}
+{LL(1) conflict : E in (: E :) construct may be empty}
                 else
                   startp^.state := yes;
               end; {if}
