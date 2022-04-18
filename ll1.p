@@ -586,8 +586,7 @@ begin {expression}
               state := yes;
 
           undecided : {terms undecided or no then expr. undecided}
-            if finalp^.state <> undecided then
-              state := finalp^.state;
+            state := finalp^.state;
             {else remains undecided}
         end; {case}
       end; {with startp}
@@ -685,8 +684,7 @@ begin {production_rule}
               state := yes;
 
           undecided :
-            if finalp^.state <> undecided then
-              state := finalp^.state;
+            state := finalp^.state;
             {else remains undecided}
 
         end; {case}
