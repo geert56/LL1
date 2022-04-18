@@ -58,7 +58,7 @@
 
                               rulekind :
                                 (dum1     : nodeptr;      {overlaps with altp}
-                                 dum2    : tokenidrange; {overlaps with nameid}
+                                 dum2     : tokenidrange; {overlaps with nameid}
                                  linenr   : cardinal;
                                  visited  : boolean;
                                 );
