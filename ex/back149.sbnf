@@ -1,0 +1,16 @@
+/* R. Backhouse 1979, page 149 but now expressed using SBNF */
+
+program_block ::= block '.' .
+block ::= 'begin' { declaration } statement_list 'end' .
+declaration ::= ( 'label' | 'integer' ) { identifier / ',' }+ ';' .
+statement_list ::= { [ identifier ':' ] [ statement ] / ';' }+ .
+statement ::= assignment | transfer | conditional | write | block .
+assignment ::= expression { '=>' identifier }+ .
+transfer ::= 'goto' identifier .
+conditional ::= 'if' expression 'then' statement_list
+              [ 'else' statement_list ] 'fi' .
+write ::= 'output' '(' { expression / ',' }+ ')' .
+expression ::= exp1 [ ( '<' | '>' | '=' ) exp1 ] .
+exp1 ::= exp2 { ( '+' | '-' ) exp2 } .
+exp2 ::= exp3 { ( '*' | '/' ) exp3 } .
+exp3 ::= [ '-' ] ( 'input' | identifier | constant | '(' expression ')' ) .
