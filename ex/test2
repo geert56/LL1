@@ -1,0 +1,8 @@
+/* Test of keywords */
+
+(*$C+*)
+
+keyword = empty | eoline | tab .
+empty = EMPTY .
+eoline = EOL .
+tab = TAB .
