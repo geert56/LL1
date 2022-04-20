@@ -1,0 +1,81 @@
+/* Ref:
+Lua 5.2 Reference Manual
+by Roberto Ierusalimschy,
+Luiz Henrique de Figueiredo,
+Waldemar Celes
+Copyright c 2011–2012 Lua.org, PUC-Rio. Freely available under the terms of the Lua license
+
+- Make keywords explicit terminal symbols
+- Introduce { / } constructs
+- Eliminate left-recursion
+- Left factoring
+*/
+
+chunk ::= block .
+
+block ::= {stat} [retstat] .
+
+stat ::= ';'
+      | varlist '=' explist
+      | functioncall | label | 'break' | 'goto' Name
+      | 'do' block 'end'
+      | 'while' exp 'do' block 'end'
+      | 'repeat' block 'until' exp
+      | 'if' exp 'then' block
+        {'elseif' exp 'then' block}
+        ['else' block] 'end'
+      | 'for' ( Name '=' exp ',' exp [',' exp]
+              | namelist 'in' explist ) 'do' block 'end'
+      | 'function' funcname funcbody
+      | 'local' ( 'function' Name funcbody | namelist ['=' explist] )
+      .
+
+retstat ::= 'return' [explist] [';'] .
+
+label ::= '::' Name '::' .
+
+funcname ::= { Name / '.' }+ [':' Name] .
+
+varlist ::= { var / ',' }+ .
+
+var ::= prefixexp .
+
+namelist ::= { Name / ',' }+ .
+
+explist ::= { exp / ',' }+ .
+
+exp ::= 'nil' | 'false' | 'true' | Number | String | '...' | functiondef
+     | prefixexp | tableconstructor | exp binop exp | unop exp .
+
+prefixexp ::= prefix { '[' exp ']' | '.' Name | [ ':' Name ] args } .
+
+prefix ::= Name | '(' exp ')' .
+
+functioncall ::= prefixexp [ ':' Name ] args .
+
+args ::= '(' [explist] ')' | tableconstructor | String .
+
+functiondef ::= 'function' funcbody .
+
+funcbody ::= '(' [parlist] ')' block 'end' .
+
+parlist ::= namelist [',' '...'] | '...' .
+
+tableconstructor ::= '{' [fieldlist] '}' .
+
+fieldlist ::= { field / fieldsep }+ [fieldsep] .
+
+field ::= '[' exp ']' '=' exp | Name '=' exp | exp .
+
+fieldsep ::= ',' | ';' .
+
+binop ::= '^' /* right-assoc */
+       | '*' | '/' | '%'
+       | '+' | '-'
+       | '..' /* right-assoc */
+       | '<' | '<=' | '>' | '>=' | '==' | '~='
+       | 'and'
+       | 'or'
+       .
+
+unop ::= '-' | 'not' | '#' .

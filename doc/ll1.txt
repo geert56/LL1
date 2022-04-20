@@ -1,0 +1,58 @@
+schema for grammar parse tree construction
+
+in tree data structure:
+node argument (first child) accessed via altp;
+next argument (sibling) via succp (if any)
+
+grammar (sbnf_parser)
+
+G = { R } .                            => <$ { R } >
+
+rule (production_rule)
+all rules with same lhs N are collected as alternatives
+N : E1, N : E2,... N : En => N : E1 | E2 | ... | En
+as tree: <: N <| E1 E2 ... En>>
+
+R = N ':' E .                          => <: N E>
+
+expression (expression)
+
+E = T                                  => T
+  | T { '|' T }+                       => <| T { T }+ >
+  .
+
+term (term)
+
+T =                                    => <^>
+  | F                                  => F
+  | F { F }+                           => <. F { F }+ >
+  .
+
+factor (factor)
+
+F = '[' E ']'                          => <? E>
+  | '{' E '}' '+'                      => <+ E>
+  | '{' E '}' [ '*' ]                  => <* E>
+  | '{' E / A '}' '+'                  => </ E A>
+  | '{' E / ^ '}' '+'                  => <+ E>
+  | '{' E / A '}' [ '*' ]              => <? </ E A>>
+  | '{' E / ^ '}' [ '*' ]              => <* E>
+  | P                                  => P
+  | P ?                                => <? P>
+  | P +                                => <+ P>
+  | P *                                => <* P>
+  .
+
+primary (primary)
+
+P = A                                  => A createleafnode
+  | '(' E ')'                          => E
+  .
+
+atom (atomic)
+
+A = eps                                => <^>
+  | t                                  => <t>
+  | N                                  => <N>
+  .
+
