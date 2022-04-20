@@ -69,6 +69,7 @@ var
   end; {testorder}
 
 begin {kwsearch}
+  {writeln(stderr, '*KW CHECK for: ', identstr);}
   i := 1;
   j := nrreservedwords;
   repeat
@@ -76,6 +77,7 @@ begin {kwsearch}
     case testorder(identstr, {<, =, > ?} keywordtable[k]) of
       less   : j := k - 1;
       equal  : begin {match}
+		  writeln(stderr, '*MATCH*');
                  kwsearch := k;
                  goto 555;
                end;
