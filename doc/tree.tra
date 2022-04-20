@@ -1,28 +1,35 @@
 (* transformational grammar *)
 
+(* grammar has zero or more rules *)
 G  = { R }                              => '<' '$' { R } '>'
    .
 
+(* rule has non-terminal lhs and exp rhs *)
 R  = N ':' E                            => '<' ':' N E '>'
    .
 
+(* alt node has at least 2 terms *)
 E  = T					=> T
    | T { '|' T }+                       => '<' '|' T { T }+ '>'
    .
 
+(* factor lists only used in diagram tool *)
 T  =                                    => ^
    | Fl					=> Fl
    | Fl { Fl }+                         => '<' ',' Fl { Fl }+ '>'
    .
 
+(* term (factor list) node has at least 2 factors *)
 Fl = F					=> F
    | F { F }+                           => '<' '.' F { F }+ '>'
    .
 
+(* optional node has 1 term; optional alt adds empty *)
 O  = '[' T ']'                          => '<' '?' T '>'
    | '[' T { '|' T }+ ']'               => '<' '|' ^ T { T }+ '>'
    .
 
+(* repetition nodes *)
 Sl = '{' E '}' [ '*' ]                  => '<' '*' E '>'
    | '{' E '}' '+'                      => '<' '+' E '>'
    | '{' E '/' <> '}' [ '*' ]           => '<' '*' E '>'
@@ -31,19 +38,22 @@ Sl = '{' E '}' [ '*' ]                  => '<' '*' E '>'
    | '{' E '/' A '}' '+'                => '<' '/' E A '>'
    .
 
+(* factor *)
 F  = P					=> P
    | P '+'                              => '<' '+' P '>'
    | P '*'                              => '<' '*' P '>'
-   | '(' T { '|' T }+ ')' '?'           => '<' '|' <> T { T } + '>'
+   | '(' T { '|' T }+ ')' '?'           => '<' '|' ^ T { T } + '>'
    | ( A | '(' T ')' ) '?'              => '<' '?' ( A | '(' T ')' ) '>'
    | Sl					=> Sl
    | O					=> O
    .
 
+(* primary *)
 P  = A					=> A
    | '(' E ')'				=> E
    .
 
+(* atoms are empty, terminal and non-terminal *)
 A  = eps                                => ^
    | t                                  => t
    | N                                  => N
