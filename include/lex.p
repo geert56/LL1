@@ -172,7 +172,7 @@ begin
   onecharsymbols[ '>' ] := GREATERop;
   onecharsymbols[ '?' ] := questsym;
 
-  //initKeywordtable;
+  initKeywordtable;
 
   newlineseen := false;
 end; {initLex}
